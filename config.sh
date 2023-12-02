@@ -21,6 +21,9 @@ else
   return
 fi
 
+echo $TOOLCHAIN_HOST_TRIPLET
+return
+
 cd rust
 git show --no-patch --format=%ci $RUST_COMMIT > commit_show_output
 commit_show_output=$(cat commit_show_output)
