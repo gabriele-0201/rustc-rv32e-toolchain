@@ -91,7 +91,7 @@ jobs:
 
       # Build Dists
       - name: Build dist
-        run: ./build_dist.sh -aarch64
+        run: ./build_aarch64_dist.sh -aarch64
 
       # Push in the Github environment variable the name of the artifact
       # Doing this now because in the following step the rust folder will be delated to save some space before installing the toolchain

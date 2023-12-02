@@ -20,6 +20,9 @@ mv rust/build/dist .
 rm -r rust
 df -h
 
+# test
+ls -R
+
 cd dist
 mkdir unpack
 cd unpack
