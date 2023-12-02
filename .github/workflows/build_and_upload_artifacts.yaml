@@ -44,6 +44,9 @@ jobs:
         run: |
           brew install ninja
 
+      - name: TEST
+        run: ./config.sh -host
+
       # Clone things
       - name: Download Necessary sources
         run: ./clone.sh
@@ -80,6 +83,9 @@ jobs:
       - name: Install ninja
         run: |
           brew install ninja
+
+      - name: TEST
+        run: ./config.sh -aarch64
 
       # Clone things
       - name: Download Necessary sources
