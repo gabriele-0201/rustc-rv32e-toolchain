@@ -54,15 +54,52 @@ jobs:
 
       # Build Dists
       - name: Build dist
-        run: ./build_dist.sh
+        run: ./build_dist.sh -host
 
       # Push in the Github environment variable the name of the artifact
       # Doing this now because in the following step the rust folder will be delated to save some space before installing the toolchain
-      - run: ./config.sh -artifact_name
+      - run: ./config.sh -host -artifact_name
 
       # Build Toolchain
       - name: Build Toolchain
-        run: ./build_toolchain.sh
+        run: ./build_toolchain.sh -host
+
+      # Upload the compiled toolchain
+      - name: Uplaod Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: "${{ env.ARTIFACT_NAME }}"
+          path: "${{ env.ARTIFACT_NAME }}.tar.xz"
+
+  build_aarch64_apple:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install ninja
+        run: |
+          brew install ninja
+
+      # Clone things
+      - name: Download Necessary sources
+        run: ./clone.sh
+
+      # Patch things
+      - name: Apply patches
+        run: ./patch.sh
+
+      # Build Dists
+      - name: Build dist
+        run: ./build_dist.sh -aarch64
+
+      # Push in the Github environment variable the name of the artifact
+      # Doing this now because in the following step the rust folder will be delated to save some space before installing the toolchain
+      - run: ./config.sh -aarch64 -artifact_name
+
+      # Build Toolchain
+      - name: Build Toolchain
+        run: ./build_toolchain.sh -aarch64
 
       # Upload the compiled toolchain
       - name: Uplaod Artifacts

@@ -2,7 +2,9 @@
 
 set -euo pipefail
 
-source config.sh
+param1=${1:-}
+
+source config.sh $param1
 
 # Build dists
 cd rust

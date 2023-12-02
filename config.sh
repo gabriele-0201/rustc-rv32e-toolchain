@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 param1=${1:-}
+param2=${2:-}
+
+# if $param1 == '-rust_commit' -> just export the commit
+# if $param1 == '-host' || $param1 == '-aarch64' then $param2 could be "-artifact_name"
 
 export RUST_COMMIT=8d321f7a88f0ae27793c133390e507bf1f49125a
 
@@ -9,7 +13,13 @@ if [ "$param1" == "-rust_commit" ]; then
   return
 fi
 
-export TOOLCHAIN_HOST_TRIPLET=$(rustc --version --verbose | grep 'host: ' | sed -r 's/host: (.*)/\1/')
+if [ "$param1" == "-rust_commit" ]; then
+  export TOOLCHAIN_HOST_TRIPLET=$(rustc --version --verbose | grep 'host: ' | sed -r 's/host: (.*)/\1/')
+elif [ "$param1" == "-aarch64" ]; then
+  export TOOLCHAIN_HOST_TRIPLET=aarch64-apple-darwin
+else
+  return
+fi
 
 cd rust
 git show --no-patch --format=%ci $RUST_COMMIT > commit_show_output
@@ -32,7 +42,7 @@ export ARTIFACT_NAME=rust-$TOOLCHAIN_NAME
 # test
 echo $ARTIFACT_NAME
 
-if [ "$param1" == "-artifact_name" ]; then
+if [ "$param2" == "-artifact_name" ]; then
     echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $GITHUB_ENV
 fi
 
