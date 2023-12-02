@@ -13,16 +13,13 @@ if [ "$param1" == "-rust_commit" ]; then
   return
 fi
 
-if [ "$param1" == "-rust_commit" ]; then
+if [ "$param1" == "-host" ]; then
   export TOOLCHAIN_HOST_TRIPLET=$(rustc --version --verbose | grep 'host: ' | sed -r 's/host: (.*)/\1/')
 elif [ "$param1" == "-aarch64" ]; then
   export TOOLCHAIN_HOST_TRIPLET=aarch64-apple-darwin
 else
   return
 fi
-
-echo $TOOLCHAIN_HOST_TRIPLET
-return
 
 cd rust
 git show --no-patch --format=%ci $RUST_COMMIT > commit_show_output
