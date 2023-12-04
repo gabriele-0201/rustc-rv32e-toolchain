@@ -77,9 +77,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install ninja
+      - name: Install things
         run: |
           brew install ninja
+          brew install openssl@3
+          sudo pkgin install openssl -y
 
       # Clone things
       - name: Download Necessary sources
